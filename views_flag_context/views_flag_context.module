@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+ */
+function views_flag_context_views_api() {
+  return array(
+    'api' => '3',
+  );
+}
+
+/**
+ * Helper to filter tids on given vocabularies.
+ *
+ * @param array $tids
+ *   array of term ids
+ * @param array $vocabularies
+ *   array of vocabulary machine names
+ *
+ * @return array
+ *   array of terms that live in one of the given vocabularies.
+ */
+function _views_flag_context_filter_tids_on_vocabularies($tids, $vocabularies) {
+  $query = db_select('taxonomy_term_data', 't')
+    ->fields('t', array('tid'))
+    ->condition('t.tid', $tids);
+  $query->innerJoin('taxonomy_vocabulary', 'v', 't.vid = v.vid');
+  $query->condition('v.machine_name', $vocabularies);
+  return $query->execute()->fetchCol();
+}

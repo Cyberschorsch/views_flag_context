@@ -1,0 +1,10 @@
+name = Views Flag Context
+description = Provides a flag context.
+core = 7.x
+package = Flags
+version = 7.x-0.1
+
+dependencies[] = flag
+dependencies[] = session_api
+
+files[] = handlers/views_argument_default_flag.inc
